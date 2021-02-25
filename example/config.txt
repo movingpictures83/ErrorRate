@@ -1,0 +1,2 @@
+Prefix plugins/ErrorRate/example
+Plugin ErrorRate inputfile filtered outputfile errorrate
