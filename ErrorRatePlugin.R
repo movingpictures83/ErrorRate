@@ -19,23 +19,26 @@ input <- function(inputfile) {
 
 run <- function() {
 path <<- filterdir # CHANGE ME to the directory containing the fastq files after unzipping.
-#print(list.files(path))
-#print(path)
+print(list.files(path))
+print(path)
 
 # Forward and reverse fastq filenames have format: SAMPLENAME_R1_001.fastq and SAMPLENAME_R2_001.fastq
 filtFs <<- sort(list.files(path, pattern="_F_filt.fastq", full.names = TRUE))
 filtRs <<- sort(list.files(path, pattern="_R_filt.fastq", full.names = TRUE))
 
-#print(filtFs)
-#print(filtRs)
+print(filtFs)
+print(filtRs)
 
 }
 
 output <- function(outputfile) {
 #derep_forward <- derepFastq(filtFs, verbose=TRUE)
 #derep_reverse <- derepFastq(filtRs, verbose=TRUE)
-errF <- learnErrors(filtFs, multithread=TRUE)
-errR <- learnErrors(filtRs, multithread=TRUE)
+print("LEARNING FORWARD")
+errF <- learnErrors(filtFs, multithread=64, verbose=2)
+print("LEARNING REVERSE")
+errR <- learnErrors(filtRs, multithread=64, verbose=2)
+print("DONE")
 write.csv(errF$err_out, paste(outputfile, "err_out", "forward", "csv", sep="."))
 #print(length(errF$err_in))
 for (i in 1:length(errF$err_in)) {
